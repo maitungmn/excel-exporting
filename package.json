@@ -10,6 +10,9 @@
     "docker-build": "chmod +x ./rebuild_docker.sh && ./rebuild_docker.sh build",
     "docker-start": "chmod +x ./rebuild_docker.sh && ./rebuild_docker.sh"
   },
+  "keywords": [
+    "heroku"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
