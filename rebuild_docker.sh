@@ -1,6 +1,6 @@
 #!/bin/bash
-imageName=exportExcel:latest
-containerName=exportExcel1
+imageName=exportexcel:latest
+containerName=exportexcel1
 build=build
 
 if [ $1 == $build ]
