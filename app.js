@@ -19,10 +19,9 @@ app.use(function (req, res, next) {
 app.post('/export', function (req, res) {
     let headers = req.body.headers;
     let data = req.body.data;
-
+    let channelList = req.body.channelList;
+    let ws = [];
     let wb = new xl.Workbook();
-    let ws = wb.addWorksheet('kpi_table');
-
     let myStyle = wb.createStyle({
         font: {
             bold: true,
@@ -63,26 +62,30 @@ app.post('/export', function (req, res) {
         }
     });
 
-    for (let i = 1; i <= headers.length; i++) {
-        ws.cell(1, i)
-            .string(headers[i - 1].text)
-            .style(myStyle);
+    for (let n = 0; n < channelList.length; n++) {
+        ws[n] = wb.addWorksheet(channelList[n].name);
 
-        for (let j = 1; j <= data.length; j++) {
-            for (let k = 1; k <= headers.length; k++) {
-                ws.cell(j + 1, k).string(
-                    String(data[j - 1][headers[k - 1].value])
-                ).style({
-                    alignment: {
-                        horizontal: 'right'
-                    }
-                });
+        for (let i = 1; i <= headers[n].length; i++) {
+            ws[n].cell(1, i)
+                .string(headers[n][i - 1].text)
+                .style(myStyle);
+
+            for (let j = 1; j <= data[n].length; j++) {
+                for (let k = 1; k <= headers[n].length; k++) {
+                    let X = '';
+                    X = String(data[n][j - 1][headers[n][k - 1].value]);
+                    ws[n].cell(j + 1, k).string(X).style({
+                        alignment: {
+                            horizontal: 'right'
+                        }
+                    });
+                }
             }
         }
+
+        wb.write('kpi-table.xlsx');
+
     }
-
-    wb.write('kpi-table.xlsx');
-
     console.log('Done!')
 
     // res.send({
