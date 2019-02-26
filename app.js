@@ -82,16 +82,9 @@ app.post('/export', function (req, res) {
                 }
             }
         }
-
-        wb.write('kpi-table.xlsx');
-
     }
+    wb.write('kpi_table.xlsx', res);
     console.log('Done!')
-
-    // res.send({
-    //     headers: headers,
-    //     data: data
-    // })
 });
 
 app.set('port', process.env.PORT || 8080);
