@@ -1,6 +1,6 @@
 #!/bin/bash
-imageName=scraper-maps:latest
-containerName=scraper-maps1
+imageName=exportExcel:latest
+containerName=exportExcel1
 build=build
 
 if [ $1 == $build ]
