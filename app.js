@@ -1,12 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const xl = require('excel4node');
+const cors = require('cors')
 
 const pause = require('./lib/pause');
 
 process.setMaxListeners(Infinity);
 
-let app = express();
+const app = express();
+app.use(cors())
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
@@ -66,6 +68,7 @@ app.post('/export', function (req, res) {
         ws[n] = wb.addWorksheet(channelList[n].name);
 
         for (let i = 1; i <= headers[n].length; i++) {
+
             ws[n].cell(1, i)
                 .string(headers[n][i - 1].text)
                 .style(myStyle);
@@ -74,6 +77,8 @@ app.post('/export', function (req, res) {
                 for (let k = 1; k <= headers[n].length; k++) {
                     let X = '';
                     X = String(data[n][j - 1][headers[n][k - 1].value]);
+                    console.log(X)
+
                     ws[n].cell(j + 1, k).string(X).style({
                         alignment: {
                             horizontal: 'right'
